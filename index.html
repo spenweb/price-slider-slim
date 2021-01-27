@@ -23,17 +23,20 @@
   </head>
 
   <body
-    style="background-image: url(assets/open-kitchen.jpg); background-position: center center; background-repeat: no-repeat; "
+    style="
+      background-image: url(assets/open-kitchen.jpg);
+      background-position: center center;
+      background-repeat: no-repeat;
+    "
   >
-    <div id="sws-savings-calculator">
-      <noscript>
-        <h3>JavaScript is disabled</h3>
-        <p>
-          Please enable JavaScript in your browser settings so that you can use
-          the savings calculator tool.
-        </p>
-      </noscript>
-
+    <noscript>
+      <h3>JavaScript is disabled</h3>
+      <p>
+        Please enable JavaScript in your browser settings so that you can use
+        the savings calculator tool.
+      </p>
+    </noscript>
+    <div id="sws-savings-calculator" style="visibility: hidden;">
       <!-- Calculate buyer savings -->
       <div
         id="sws-price-slider-buyer"
@@ -104,64 +107,14 @@
           </div>
         </div>
       </div>
-
-      <!-- Calculate lender savings -->
-      <div id="sws-price-slider-lender" class="sws-block sws-block-border-all">
-        <div class="sws-column-group">
-          <div class="sws-ps-col">
-            <div class="sws-ps-content sws-ps-content-border-right">
-              <div class="sws-ps-price-messages">
-                <p class="sws-ps-title sws-ps-purchase-price-title">
-                  By Utilizing A CashAtClose Preferred Lender You’ll Receive An
-                  Additional $1,000 Incentive At Closing
-                </p>
-                <div style="width: 120px;">
-                  <input
-                    type="text"
-                    id="js-range-slider-lender"
-                    name="my_range"
-                    value=""
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="sws-ps-col">
-            <div class="sws-ps-content sws-ps-content-border-left">
-              <div class="sws-ps-savings-messages">
-                <p class="sws-ps-title sws-ps-savings-title">
-                  Additional Lender Incentive
-                </p>
-                <p class="sws-ps-highlighted-number sws-ps-savings">$0</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Show total -->
-      <div
-        id="sws-price-slider-total"
-        class="sws-block sws-block-border-not-bottom"
-      >
-        <div class="sws-ps-content sws-ps-rewards">
-          <span
-            class="sws-ps-title sws-ps-purchase-price-title sws-ps-total-price-title"
-          >
-            Your Potential Rewards
-          </span>
-          <span
-            id="sws-ps-total-savings"
-            class="sws-ps-highlighted-number sws-ps-savings"
-          >
-            $0
-          </span>
-        </div>
-      </div>
     </div>
     <script>
-      (function($) {
-        window.addEventListener("DOMContentLoaded", function() {
+      (function ($) {
+        window.addEventListener("load", function () {
+          // Display hidden calculator on page full load
+          document.getElementById("sws-savings-calculator").style.visibility =
+            "initial";
+
           var minHomePrice = 150000;
           var maxHomePrice = 3000000;
 
@@ -169,61 +122,44 @@
           var savingsObj = {
             buyerSavings: 0,
             sellerSavings: 0,
-            lenderSavings: 0,
-            calculateTotal: function() {
-              return (
-                this.buyerSavings + this.sellerSavings + this.lenderSavings
-              );
+            calculateTotal: function () {
+              return this.buyerSavings + this.sellerSavings;
             }
           };
 
-          var calculateBuyerSavings = function(price) {
-            var buyerCommision = 0.03;
-            var discount = 0.25;
-            return Math.floor(price * buyerCommision * discount);
-          };
-
-          var calculateSellerSavings = function(price) {
-            var discount = 0.01;
+          var calculateBuyerSavings = function (price) {
+            var discount = 0.005;
             return Math.floor(price * discount);
           };
 
-          var calculateLenderSavings = function(option) {
-            var discount = 1000;
-            return option === "Yes" ? discount : 0;
+          var calculateSellerSavings = function (price) {
+            var discount = 0.005;
+            return Math.floor(price * discount);
           };
 
-          var sliderChangeHandler = function(
+          var sliderChangeHandler = function (
             topSelector,
             savingsCalculator,
             savingsKey
           ) {
-            return function(data) {
+            return function (data) {
               var price = data.from_value;
               var savings = savingsCalculator(price);
 
               // Update savings by type
               savingsObj[savingsKey] = savings;
 
-              // Lender savings does not have dynamic input price
-              if (savingsKey !== "lenderSavings") {
-                $(topSelector + " .sws-ps-price").text(
-                  "$" + formatNumber(price)
-                );
-              }
+              // Display price
+              $(topSelector + " .sws-ps-price").text("$" + formatNumber(price));
 
+              // Display savings
               $(topSelector + " .sws-ps-savings").text(
                 "$" + formatNumber(savings)
-              );
-
-              // Display total
-              $("#sws-ps-total-savings").text(
-                "$" + formatNumber(savingsObj.calculateTotal())
               );
             };
           };
 
-          var examplePriceListFunc = function(minPrice, maxPrice, step) {
+          var examplePriceListFunc = function (minPrice, maxPrice, step) {
             var list = [0]; // Start at zero
             var price = minPrice;
 
@@ -245,7 +181,7 @@
           );
 
           // Format number with commas
-          var formatNumber = function(num) {
+          var formatNumber = function (num) {
             return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
           };
 
@@ -282,21 +218,6 @@
             block: false, // for manual input switch effect
             onStart: changeHandlerForSellerSlider,
             onChange: changeHandlerForSellerSlider
-          });
-
-          var changeHandlerForLenderSlider = sliderChangeHandler(
-            "#sws-price-slider-lender",
-            calculateLenderSavings,
-            "lenderSavings"
-          );
-          $("#js-range-slider-lender").ionRangeSlider({
-            skin: "round",
-            grid: !0,
-            values: ["No", "Yes"],
-            from: 1,
-            block: false, // for manual input switch effect
-            onStart: changeHandlerForLenderSlider,
-            onChange: changeHandlerForLenderSlider
           });
         });
       })(jQuery);
