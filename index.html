@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+    />
+    <!--Plugin CSS file with desired skin-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"
+    />
+
+    <!--jQuery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!--Plugin JavaScript file-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body
+    style="background-image: url(assets/open-kitchen.jpg); background-position: center center; background-repeat: no-repeat; "
+  >
+    <div id="sws-savings-calculator">
+      <noscript>
+        <h3>JavaScript is disabled</h3>
+        <p>
+          Please enable JavaScript in your browser settings so that you can use
+          the savings calculator tool.
+        </p>
+      </noscript>
+
+      <!-- Calculate buyer savings -->
+      <div
+        id="sws-price-slider-buyer"
+        class="sws-block sws-block-border-not-top"
+      >
+        <div class="sws-column-group">
+          <div class="sws-ps-col">
+            <div class="sws-ps-content sws-ps-content-border-right">
+              <div class="sws-ps-price-messages">
+                <p class="sws-ps-title sws-ps-purchase-price-title">
+                  The Purchase Price Of Your Home “Buying”
+                </p>
+                <p class="sws-ps-highlighted-number sws-ps-price">$0</p>
+              </div>
+              <input
+                type="text"
+                id="js-range-slider-buyer"
+                name="my_range"
+                value=""
+              />
+            </div>
+          </div>
+          <div class="sws-ps-col">
+            <div class="sws-ps-content sws-ps-content-border-left">
+              <div class="sws-ps-savings-messages">
+                <p class="sws-ps-title sws-ps-savings-title">
+                  Your Rewards At Closing
+                </p>
+                <p class="sws-ps-highlighted-number sws-ps-savings">$0</p>
+                <p class="sws-ps-disclaimer">*Based on a 3% buyer commision</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calculate seller savings -->
+      <div id="sws-price-slider-seller" class="sws-block sws-block-border-all">
+        <div class="sws-column-group">
+          <div class="sws-ps-col">
+            <div class="sws-ps-content sws-ps-content-border-right">
+              <div class="sws-ps-price-messages">
+                <p class="sws-ps-title sws-ps-purchase-price-title">
+                  The Sales Price Of Your Home “Selling”
+                </p>
+                <p class="sws-ps-highlighted-number sws-ps-price">$0</p>
+              </div>
+              <input
+                type="text"
+                id="js-range-slider-seller"
+                name="my_range"
+                value=""
+              />
+            </div>
+          </div>
+          <div class="sws-ps-col">
+            <div class="sws-ps-content sws-ps-content-border-left">
+              <div class="sws-ps-savings-messages">
+                <p class="sws-ps-title sws-ps-savings-title">
+                  Your Additional Rewards At Close
+                </p>
+                <p class="sws-ps-highlighted-number sws-ps-savings">$0</p>
+                <p class="sws-ps-disclaimer">
+                  *Based on a 3% listing commission
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calculate lender savings -->
+      <div id="sws-price-slider-lender" class="sws-block sws-block-border-all">
+        <div class="sws-column-group">
+          <div class="sws-ps-col">
+            <div class="sws-ps-content sws-ps-content-border-right">
+              <div class="sws-ps-price-messages">
+                <p class="sws-ps-title sws-ps-purchase-price-title">
+                  By Utilizing A CashAtClose Preferred Lender You’ll Receive An
+                  Additional $1,000 Incentive At Closing
+                </p>
+                <div style="width: 120px;">
+                  <input
+                    type="text"
+                    id="js-range-slider-lender"
+                    name="my_range"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sws-ps-col">
+            <div class="sws-ps-content sws-ps-content-border-left">
+              <div class="sws-ps-savings-messages">
+                <p class="sws-ps-title sws-ps-savings-title">
+                  Additional Lender Incentive
+                </p>
+                <p class="sws-ps-highlighted-number sws-ps-savings">$0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Show total -->
+      <div
+        id="sws-price-slider-total"
+        class="sws-block sws-block-border-not-bottom"
+      >
+        <div class="sws-ps-content sws-ps-rewards">
+          <span
+            class="sws-ps-title sws-ps-purchase-price-title sws-ps-total-price-title"
+          >
+            Your Potential Rewards
+          </span>
+          <span
+            id="sws-ps-total-savings"
+            class="sws-ps-highlighted-number sws-ps-savings"
+          >
+            $0
+          </span>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function($) {
+        window.addEventListener("DOMContentLoaded", function() {
+          var minHomePrice = 150000;
+          var maxHomePrice = 3000000;
+
+          // Savings state
+          var savingsObj = {
+            buyerSavings: 0,
+            sellerSavings: 0,
+            lenderSavings: 0,
+            calculateTotal: function() {
+              return (
+                this.buyerSavings + this.sellerSavings + this.lenderSavings
+              );
+            }
+          };
+
+          var calculateBuyerSavings = function(price) {
+            var buyerCommision = 0.03;
+            var discount = 0.25;
+            return Math.floor(price * buyerCommision * discount);
+          };
+
+          var calculateSellerSavings = function(price) {
+            var discount = 0.01;
+            return Math.floor(price * discount);
+          };
+
+          var calculateLenderSavings = function(option) {
+            var discount = 1000;
+            return option === "Yes" ? discount : 0;
+          };
+
+          var sliderChangeHandler = function(
+            topSelector,
+            savingsCalculator,
+            savingsKey
+          ) {
+            return function(data) {
+              var price = data.from_value;
+              var savings = savingsCalculator(price);
+
+              // Update savings by type
+              savingsObj[savingsKey] = savings;
+
+              // Lender savings does not have dynamic input price
+              if (savingsKey !== "lenderSavings") {
+                $(topSelector + " .sws-ps-price").text(
+                  "$" + formatNumber(price)
+                );
+              }
+
+              $(topSelector + " .sws-ps-savings").text(
+                "$" + formatNumber(savings)
+              );
+
+              // Display total
+              $("#sws-ps-total-savings").text(
+                "$" + formatNumber(savingsObj.calculateTotal())
+              );
+            };
+          };
+
+          var examplePriceListFunc = function(minPrice, maxPrice, step) {
+            var list = [0]; // Start at zero
+            var price = minPrice;
+
+            do {
+              list.push(price);
+              price += step;
+            } while (price < maxPrice);
+
+            list.push(maxPrice); // End with max
+
+            return list;
+          };
+
+          // Create example list of prices with min, max, and step
+          var examplePrices = examplePriceListFunc(
+            minHomePrice,
+            maxHomePrice,
+            100000
+          );
+
+          // Format number with commas
+          var formatNumber = function(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+          };
+
+          /** Initialize all IonRangeSliders **/
+          var changeHandlerForBuyerSlider = sliderChangeHandler(
+            "#sws-price-slider-buyer",
+            calculateBuyerSavings,
+            "buyerSavings"
+          );
+          $("#js-range-slider-buyer").ionRangeSlider({
+            skin: "round",
+            grid: !0,
+            values: examplePrices,
+            from: 0,
+            hide_min_max: true,
+            hide_from_to: true,
+            block: false, // for manual input switch effect
+            onStart: changeHandlerForBuyerSlider,
+            onChange: changeHandlerForBuyerSlider
+          });
+
+          var changeHandlerForSellerSlider = sliderChangeHandler(
+            "#sws-price-slider-seller",
+            calculateSellerSavings,
+            "sellerSavings"
+          );
+          $("#js-range-slider-seller").ionRangeSlider({
+            skin: "round",
+            grid: !0,
+            values: examplePrices,
+            from: 0,
+            hide_min_max: true,
+            hide_from_to: true,
+            block: false, // for manual input switch effect
+            onStart: changeHandlerForSellerSlider,
+            onChange: changeHandlerForSellerSlider
+          });
+
+          var changeHandlerForLenderSlider = sliderChangeHandler(
+            "#sws-price-slider-lender",
+            calculateLenderSavings,
+            "lenderSavings"
+          );
+          $("#js-range-slider-lender").ionRangeSlider({
+            skin: "round",
+            grid: !0,
+            values: ["No", "Yes"],
+            from: 1,
+            block: false, // for manual input switch effect
+            onStart: changeHandlerForLenderSlider,
+            onChange: changeHandlerForLenderSlider
+          });
+        });
+      })(jQuery);
+    </script>
+  </body>
+</html>

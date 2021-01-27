@@ -1,0 +1,180 @@
+#sws-savings-calculator {
+  background-color: white;
+  border-style: solid;
+  border-width: 2px;
+  background-clip: border-box;
+  border-color: #f1f1f1;
+  border-radius: 10px;
+  max-width: 1000px;
+  margin: auto;
+  margin-top: 10em;
+}
+
+#sws-savings-calculator * {
+  font-family: "Poppins", sans-serif; /* Need to determine font */
+  font-weight: 300;
+}
+
+#sws-savings-calculator p {
+  padding-bottom: 0;
+}
+
+.sws-block {
+  border-style: solid;
+  background-clip: border-box;
+  border-color: #f1f1f1;
+  background-color: white;
+}
+
+.sws-block-border-all {
+  border-width: 2px;
+}
+
+.sws-block-border-not-top {
+  border-width: 0 2px 2px;
+  border-radius: 10px 10px 0 0;
+}
+
+.sws-block-border-not-bottom {
+  border-width: 2px 2px 0;
+  border-radius: 0 0 10px 10px;
+}
+
+.sws-ps-content-border-right {
+  border-style: solid;
+  border-width: 0;
+  background-clip: border-box;
+  border-color: #f1f1f1;
+  border-right-width: 4px;
+}
+
+.sws-ps-content-border-left {
+  border-style: solid;
+  border-width: 0;
+  background-clip: border-box;
+  border-color: #f1f1f1;
+  border-left-width: 4px;
+  margin-left: -4px;
+}
+
+.sws-column-group {
+  overflow: hidden;
+}
+
+.sws-ps-col {
+  width: 50%;
+  float: left;
+}
+
+.sws-ps-content {
+  padding: 16px;
+}
+
+.sws-ps-highlighted-number {
+  color: #8dc63f;
+  font-size: 36px;
+  margin: 0;
+}
+
+.sws-ps-rewards {
+  text-align: center;
+}
+
+.sws-ps-title {
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 10px 0;
+}
+
+.sws-ps-disclaimer {
+  margin-top: 25px;
+  margin-bottom: 0;
+  font-size: 16px;
+}
+
+.sws-ps-title.sws-ps-purchase-price-title.sws-ps-total-price-title {
+  font-size: 42px;
+  text-align: right;
+}
+
+#sws-savings-calculator .irs-grid-pol.small,
+#sws-savings-calculator .irs-grid-text,
+#sws-savings-calculator .irs-max,
+#sws-savings-calculator .irs-min,
+#sws-savings-calculator .irs-single {
+  display: none;
+}
+
+#sws-price-slider-lender .irs-min,
+#sws-price-slider-lender .irs-max,
+#sws-price-slider-lender .irs-single {
+  display: inherit !important;
+}
+
+#sws-savings-calculator .irs--round .irs-handle {
+  border: none !important;
+  box-shadow: 1px 1px 10px 5px rgba(52, 152, 219, 0.15) !important;
+}
+
+#sws-savings-calculator .irs--round .irs-grid {
+  height: 18px !important;
+}
+
+#sws-savings-calculator .irs--round .irs-bar {
+  background-color: #8dc63f;
+}
+
+#sws-savings-calculator .irs--round .irs-single {
+  background-color: #8dc63f;
+}
+
+@media (max-width: 480px) {
+  body .nectar-highlighted-text h1 {
+    font-size: 24px;
+  }
+
+  .wpb_wrapper > div {
+    margin-bottom: 0;
+  }
+
+  p.sws-ps-title {
+    font-size: 12px;
+  }
+
+  .sws-ps-title.sws-ps-purchase-price-title.sws-ps-total-price-title {
+    font-size: 24px;
+  }
+
+  .sws-ps-highlighted-number {
+    font-size: 16px;
+    line-height: 0.5;
+  }
+
+  .sws-ps-disclaimer {
+    font-size: 10px;
+  }
+
+  .sws-ps-content {
+    padding-bottom: 4px;
+    padding-top: 4px;
+  }
+}
+
+@media (max-width: 820px) and (min-width: 481px) {
+  p.sws-ps-title {
+    font-size: 18px;
+  }
+
+  .sws-ps-title.sws-ps-purchase-price-title.sws-ps-total-price-title {
+    font-size: 36px;
+  }
+
+  .sws-ps-highlighted-number {
+    font-size: 24px;
+    line-height: 0.5;
+  }
+
+  .sws-ps-disclaimer {
+    font-size: 12px;
+  }
+}
