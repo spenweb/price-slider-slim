@@ -36,72 +36,79 @@
         the savings calculator tool.
       </p>
     </noscript>
-    <div id="sws-savings-calculator" style="visibility: hidden;">
-      <!-- Calculate buyer savings -->
-      <div
-        id="sws-price-slider-buyer"
-        class="sws-block sws-block-border-not-top"
-      >
-        <div class="sws-column-group">
-          <div class="sws-ps-col">
-            <div class="sws-ps-content sws-ps-content-border-right">
-              <div class="sws-ps-price-messages">
-                <p class="sws-ps-title sws-ps-purchase-price-title">
-                  The Purchase Price Of Your Home “Buying”
-                </p>
-                <p class="sws-ps-highlighted-number sws-ps-price">$0</p>
+    <div id="sws-savings-calculator">
+      <div id="sws-savings-calculator-inner" style="visibility: hidden;">
+        <!-- Calculate buyer savings -->
+        <div
+          id="sws-price-slider-buyer"
+          class="sws-block sws-block-border-not-top"
+        >
+          <div class="sws-column-group">
+            <div class="sws-ps-col">
+              <div class="sws-ps-content sws-ps-content-border-right">
+                <div class="sws-ps-price-messages">
+                  <p class="sws-ps-title sws-ps-purchase-price-title">
+                    The Purchase Price Of Your Home “Buying”
+                  </p>
+                  <p class="sws-ps-highlighted-number sws-ps-price">$0</p>
+                </div>
+                <input
+                  type="text"
+                  id="js-range-slider-buyer"
+                  name="my_range"
+                  value=""
+                />
               </div>
-              <input
-                type="text"
-                id="js-range-slider-buyer"
-                name="my_range"
-                value=""
-              />
             </div>
-          </div>
-          <div class="sws-ps-col">
-            <div class="sws-ps-content sws-ps-content-border-left">
-              <div class="sws-ps-savings-messages">
-                <p class="sws-ps-title sws-ps-savings-title">
-                  Your Rewards At Closing
-                </p>
-                <p class="sws-ps-highlighted-number sws-ps-savings">$0</p>
-                <p class="sws-ps-disclaimer">*Based on a 3% buyer commision</p>
+            <div class="sws-ps-col">
+              <div class="sws-ps-content sws-ps-content-border-left">
+                <div class="sws-ps-savings-messages">
+                  <p class="sws-ps-title sws-ps-savings-title">
+                    Your Rewards At Closing
+                  </p>
+                  <p class="sws-ps-highlighted-number sws-ps-savings">$0</p>
+                  <p class="sws-ps-disclaimer">
+                    *Based on a 3% buyer commision
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Calculate seller savings -->
-      <div id="sws-price-slider-seller" class="sws-block sws-block-border-all">
-        <div class="sws-column-group">
-          <div class="sws-ps-col">
-            <div class="sws-ps-content sws-ps-content-border-right">
-              <div class="sws-ps-price-messages">
-                <p class="sws-ps-title sws-ps-purchase-price-title">
-                  The Sales Price Of Your Home “Selling”
-                </p>
-                <p class="sws-ps-highlighted-number sws-ps-price">$0</p>
+        <!-- Calculate seller savings -->
+        <div
+          id="sws-price-slider-seller"
+          class="sws-block sws-block-border-all"
+        >
+          <div class="sws-column-group">
+            <div class="sws-ps-col">
+              <div class="sws-ps-content sws-ps-content-border-right">
+                <div class="sws-ps-price-messages">
+                  <p class="sws-ps-title sws-ps-purchase-price-title">
+                    The Sales Price Of Your Home “Selling”
+                  </p>
+                  <p class="sws-ps-highlighted-number sws-ps-price">$0</p>
+                </div>
+                <input
+                  type="text"
+                  id="js-range-slider-seller"
+                  name="my_range"
+                  value=""
+                />
               </div>
-              <input
-                type="text"
-                id="js-range-slider-seller"
-                name="my_range"
-                value=""
-              />
             </div>
-          </div>
-          <div class="sws-ps-col">
-            <div class="sws-ps-content sws-ps-content-border-left">
-              <div class="sws-ps-savings-messages">
-                <p class="sws-ps-title sws-ps-savings-title">
-                  Your Additional Rewards At Close
-                </p>
-                <p class="sws-ps-highlighted-number sws-ps-savings">$0</p>
-                <p class="sws-ps-disclaimer">
-                  *Based on a 3% listing commission
-                </p>
+            <div class="sws-ps-col">
+              <div class="sws-ps-content sws-ps-content-border-left">
+                <div class="sws-ps-savings-messages">
+                  <p class="sws-ps-title sws-ps-savings-title">
+                    Your Additional Rewards At Close
+                  </p>
+                  <p class="sws-ps-highlighted-number sws-ps-savings">$0</p>
+                  <p class="sws-ps-disclaimer">
+                    *Based on a 3% listing commission
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -112,8 +119,9 @@
       (function ($) {
         window.addEventListener("load", function () {
           // Display hidden calculator on page full load
-          document.getElementById("sws-savings-calculator").style.visibility =
-            "initial";
+          document.getElementById(
+            "sws-savings-calculator-inner"
+          ).style.visibility = "initial";
 
           var minHomePrice = 150000;
           var maxHomePrice = 3000000;
