@@ -7,19 +7,20 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
     />
-    <!--Plugin CSS file with desired skin-->
+    <!--jQuery (already included in WordPress, do not include)-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!--Copy over styles directly from the style.css file-->
+    <link rel="stylesheet" href="style.css" />
+
+    <!--Plugin CSS file with desired skin (add to page)-->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"
     />
 
-    <!--jQuery-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <!--Plugin JavaScript file-->
+    <!--Plugin JavaScript file (add to page)-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
-
-    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body
@@ -151,7 +152,8 @@
             savingsKey
           ) {
             return function (data) {
-              var price = data.from_value;
+              var price =
+                typeof data.from_value === "number" ? data.from_value : 0;
               var savings = savingsCalculator(price);
 
               // Update savings by type
